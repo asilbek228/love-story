@@ -847,12 +847,35 @@ footer {
   }
 
   .hero-stage {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 8px;
+    display: grid;
+    place-items: center;
+    min-height: 620px;
+    grid-template-columns: none;
+    gap: 0;
+    padding-top: 0;
+  }
+
+  .hero-photo {
+    position: absolute;
+    width: clamp(82px, 24vw, 118px);
+    transform: rotate(var(--rot, 0deg));
   }
 
   .hero-photo:nth-of-type(n+7) {
     display: none;
+  }
+
+  .photo-1 { top: 9%; left: 1%; --rot: -11deg; }
+  .photo-2 { top: 5%; right: 3%; --rot: 10deg; }
+  .photo-3 { top: 34%; left: 0%; --rot: -7deg; }
+  .photo-4 { top: 33%; right: 1%; --rot: 8deg; }
+  .photo-5 { bottom: 6%; left: 7%; --rot: 9deg; }
+  .photo-6 { bottom: 6%; right: 7%; --rot: -9deg; }
+
+  .hero-stage .hero-card {
+    width: min(92%, 420px);
+    margin-bottom: 0;
+    z-index: 5;
   }
 
   .hero h1 {
