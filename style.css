@@ -716,6 +716,10 @@ footer {
     transform: none;
   }
 
+  .hero-photo:nth-of-type(n+9) {
+    display: none;
+  }
+
   .photo-1,
   .photo-2,
   .photo-3,
@@ -752,7 +756,7 @@ footer {
 
   .timeline-section .container {
     border-radius: 22px;
-    padding: 16px 10px;
+    padding: 14px 8px;
   }
 
   .timeline-item,
@@ -779,17 +783,17 @@ footer {
   }
 
   .event-card {
-    padding: 16px 14px 14px;
+    padding: 14px 12px 12px;
     border-radius: 18px;
   }
 
   .event-title {
-    font-size: 1.08rem;
+    font-size: 1.02rem;
     line-height: 1.2;
   }
 
   .event-text {
-    font-size: 0.92rem;
+    font-size: 0.9rem;
   }
 
   section {
@@ -814,8 +818,8 @@ footer {
   .music-toggle {
     right: 8px;
     bottom: 8px;
-    font-size: .78rem;
-    padding: 8px 10px;
+    font-size: .74rem;
+    padding: 7px 9px;
     opacity: .94;
   }
 }
@@ -847,7 +851,7 @@ footer {
     gap: 8px;
   }
 
-  .hero-photo:nth-of-type(n+10) {
+  .hero-photo:nth-of-type(n+7) {
     display: none;
   }
 
@@ -872,15 +876,17 @@ footer {
   .timeline-item,
   .timeline-item:nth-child(even),
   .timeline-item:nth-child(odd) {
-    padding-left: 30px;
+    padding-left: 26px;
   }
 
   .timeline::before {
-    left: 12px;
+    left: 10px;
   }
 
   .timeline-dot {
-    left: -1px;
+    left: -2px;
+    width: 24px;
+    height: 24px;
   }
 }
 
