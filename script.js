@@ -2,7 +2,16 @@
 const openStoryBtn = document.getElementById("openStoryBtn");
 const closeModalBtn = document.getElementById("closeModal");
 const heroTimelineBtn = document.getElementById("heroTimelineBtn");
+const heroSection = document.getElementById("hero");
 const timelineSection = document.getElementById("timelineSection");
+const lightbox = document.getElementById("photoLightbox");
+const lightboxImage = document.getElementById("lightboxImage");
+const lightboxCaption = document.getElementById("lightboxTitle");
+const lightboxCloseBtn = document.getElementById("lightboxClose");
+const lightboxPrevBtn = document.getElementById("lightboxPrev");
+const lightboxNextBtn = document.getElementById("lightboxNext");
+const loveCounter = document.getElementById("loveCounter");
+const decorLayer = document.querySelector(".decor");
 
 // Background music (low volume + resume across pages)
 const MUSIC_STORAGE_KEY = "love_story_music_state_v1";
@@ -79,6 +88,7 @@ bgMusic.addEventListener("loadedmetadata", () => {
   }
 });
 
+
 const unlockMusic = () => {
   sessionStorage.setItem(MUSIC_UNLOCK_KEY, "1");
   if (isMusicEnabled()) {
@@ -135,14 +145,84 @@ function scrollToTimeline() {
   }
 }
 
+function scrollToHero() {
+  if (heroSection) {
+    heroSection.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+}
+
 function openTimelinePage() {
   window.location.href = "timeline.html#timelineSection";
 }
 
+function formatLoveDuration(startDate, endDate) {
+  const diffMs = Math.max(0, endDate.getTime() - startDate.getTime());
+  const totalSeconds = Math.floor(diffMs / 1000);
+  const days = Math.floor(totalSeconds / 86400);
+  const hours = Math.floor((totalSeconds % 86400) / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  return `Мы вместе: ${days} дней ${hours} часов ${minutes} минут ${seconds} секунд`;
+}
+
+if (loveCounter) {
+  const loveStartDate = new Date("2024-03-08T00:00:00");
+  const renderLoveCounter = () => {
+    loveCounter.textContent = formatLoveDuration(loveStartDate, new Date());
+  };
+  renderLoveCounter();
+  setInterval(renderLoveCounter, 1000);
+}
+
+if (decorLayer) {
+  for (let i = 0; i < 16; i += 1) {
+    const heart = document.createElement("span");
+    heart.className = "fall-heart";
+    heart.textContent = Math.random() > 0.2 ? "❤" : "✦";
+    heart.style.setProperty("--left", `${Math.random() * 100}%`);
+    heart.style.setProperty("--dur", `${7 + Math.random() * 7}s`);
+    heart.style.setProperty("--delay", `${-Math.random() * 12}s`);
+    heart.style.setProperty("--size", `${16 + Math.random() * 16}px`);
+    decorLayer.appendChild(heart);
+  }
+}
+
+if (window.matchMedia("(pointer:fine)").matches) {
+  const heartCursor = document.createElement("div");
+  heartCursor.className = "heart-cursor";
+  heartCursor.setAttribute("aria-hidden", "true");
+  heartCursor.textContent = "❤";
+  document.body.appendChild(heartCursor);
+  document.body.classList.add("heart-cursor-enabled");
+
+  let mouseX = window.innerWidth / 2;
+  let mouseY = window.innerHeight / 2;
+  let currentX = mouseX;
+  let currentY = mouseY;
+
+  document.addEventListener("mousemove", (event) => {
+    mouseX = event.clientX;
+    mouseY = event.clientY;
+  });
+
+  const animateCursor = () => {
+    currentX += (mouseX - currentX) * 0.22;
+    currentY += (mouseY - currentY) * 0.22;
+    heartCursor.style.transform = `translate3d(${currentX - 10}px, ${currentY - 12}px, 0)`;
+    requestAnimationFrame(animateCursor);
+  };
+
+  animateCursor();
+}
+
 if (openStoryBtn) {
   openStoryBtn.addEventListener("click", () => {
-    closeModal();
-    setTimeout(openTimelinePage, 220);
+    if (heroSection) {
+      scrollToHero();
+      return;
+    }
+    window.location.href = "love-tree.html";
   });
 }
 
@@ -166,6 +246,82 @@ heroImages.forEach((img) => {
     const frame = img.closest(".hero-photo");
     if (frame) frame.classList.add("photo-empty");
   });
+});
+
+let activePhotoIndex = 0;
+
+function renderLightbox(index) {
+  if (!lightbox || !lightboxImage || !heroImages.length) return;
+  activePhotoIndex = (index + heroImages.length) % heroImages.length;
+  const currentImage = heroImages[activePhotoIndex];
+  lightboxImage.src = currentImage.currentSrc || currentImage.src;
+  lightboxImage.alt = currentImage.alt;
+  if (lightboxCaption) {
+    lightboxCaption.textContent = currentImage.alt || `Фото ${activePhotoIndex + 1}`;
+  }
+}
+
+function openLightbox(index) {
+  if (!lightbox) return;
+  renderLightbox(index);
+  lightbox.classList.remove("hidden");
+  lightbox.setAttribute("aria-hidden", "false");
+  document.body.classList.add("lightbox-open");
+}
+
+function closeLightbox() {
+  if (!lightbox) return;
+  lightbox.classList.add("hidden");
+  lightbox.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("lightbox-open");
+}
+
+function showNextPhoto(step) {
+  renderLightbox(activePhotoIndex + step);
+}
+
+heroImages.forEach((img, index) => {
+  const frame = img.closest(".hero-photo");
+  if (!frame) return;
+
+  frame.setAttribute("role", "button");
+  frame.setAttribute("tabindex", "0");
+  frame.setAttribute("aria-label", `Открыть ${img.alt.toLowerCase()}`);
+
+  frame.addEventListener("click", () => openLightbox(index));
+  frame.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      openLightbox(index);
+    }
+  });
+});
+
+if (lightboxCloseBtn) {
+  lightboxCloseBtn.addEventListener("click", closeLightbox);
+}
+
+if (lightboxPrevBtn) {
+  lightboxPrevBtn.addEventListener("click", () => showNextPhoto(-1));
+}
+
+if (lightboxNextBtn) {
+  lightboxNextBtn.addEventListener("click", () => showNextPhoto(1));
+}
+
+if (lightbox) {
+  lightbox.addEventListener("click", (event) => {
+    if (event.target instanceof HTMLElement && event.target.hasAttribute("data-lightbox-close")) {
+      closeLightbox();
+    }
+  });
+}
+
+document.addEventListener("keydown", (event) => {
+  if (!lightbox || lightbox.classList.contains("hidden")) return;
+  if (event.key === "Escape") closeLightbox();
+  if (event.key === "ArrowLeft") showNextPhoto(-1);
+  if (event.key === "ArrowRight") showNextPhoto(1);
 });
 
 // Reveal timeline cards on scroll

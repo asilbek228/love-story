@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ramina & Asilbek - Фото</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css?v=6" />
+</head>
+<body>
+  <div class="decor" aria-hidden="true">
+    <span>❤</span>
+    <span>✿</span>
+    <span>❤</span>
+    <span>✦</span>
+    <span>✿</span>
+  </div>
+
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <p class="brand">Ramina & Asilbek</p>
+      <a class="topbar-link" href="timeline.html#timelineSection">Наш таймлайн</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="hero">
+      <div class="container">
+        <div class="hero-stage fade-in">
+          <figure class="hero-photo photo-1"><img src="images/photo-1.jpg" alt="Наше фото 1" loading="lazy" /></figure>
+          <figure class="hero-photo photo-2"><img src="images/photo-2.jpg" alt="Наше фото 2" loading="lazy" /></figure>
+          <figure class="hero-photo photo-3"><img src="images/photo-3.jpg" alt="Наше фото 3" loading="lazy" /></figure>
+          <figure class="hero-photo photo-4"><img src="images/photo-4.jpg" alt="Наше фото 4" loading="lazy" /></figure>
+          <figure class="hero-photo photo-5"><img src="images/photo-5.jpg" alt="Наше фото 5" loading="lazy" /></figure>
+          <figure class="hero-photo photo-6"><img src="images/photo-6.jpg" alt="Наше фото 6" loading="lazy" /></figure>
+          <figure class="hero-photo photo-7"><img src="images/photo-7.jpg" alt="Наше фото 7" loading="lazy" /></figure>
+          <figure class="hero-photo photo-8"><img src="images/photo-8.jpg" alt="Наше фото 8" loading="lazy" /></figure>
+          <figure class="hero-photo photo-9"><img src="images/photo-9.jpg" alt="Наше фото 9" loading="lazy" /></figure>
+          <figure class="hero-photo photo-10"><img src="images/photo-10.jpg" alt="Наше фото 10" loading="lazy" /></figure>
+          <figure class="hero-photo photo-11"><img src="images/photo-11.jpg" alt="Наше фото 11" loading="lazy" /></figure>
+          <figure class="hero-photo photo-12"><img src="images/photo-12.jpg" alt="Наше фото 12" loading="lazy" /></figure>
+
+          <div class="hero-card">
+            <span class="hero-kicker">Ramina ♡ Asilbek</span>
+            <h1>Наши фотографии</h1>
+            <p>Каждый момент - часть нас</p>
+            <p class="hero-hint">Нажми на любое фото, чтобы открыть его крупно</p>
+            <button class="btn" id="heroTimelineBtn">Перейти в таймлайн</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="lightbox hidden" id="photoLightbox" aria-hidden="true">
+    <div class="lightbox-backdrop" data-lightbox-close></div>
+    <div class="lightbox-dialog" role="dialog" aria-modal="true" aria-labelledby="lightboxTitle">
+      <button class="lightbox-close" id="lightboxClose" type="button" aria-label="Закрыть просмотр">&times;</button>
+      <button class="lightbox-nav lightbox-prev" id="lightboxPrev" type="button" aria-label="Предыдущее фото">‹</button>
+      <figure class="lightbox-figure">
+        <img id="lightboxImage" src="" alt="" />
+        <figcaption class="lightbox-caption" id="lightboxTitle"></figcaption>
+      </figure>
+      <button class="lightbox-nav lightbox-next" id="lightboxNext" type="button" aria-label="Следующее фото">›</button>
+    </div>
+  </div>
+
+  <footer>
+    Made with love by Asilbek for Ramina 💗
+  </footer>
+
+  <script src="script.js?v=6"></script>
+</body>
+</html>

@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="style.css?v=4" />
+  <link rel="stylesheet" href="style.css?v=6" />
 </head>
 <body>
   <div class="decor" aria-hidden="true">
@@ -24,80 +24,38 @@
   <header class="topbar">
     <div class="container topbar-inner">
       <p class="brand">Ramina & Asilbek</p>
-      <a class="topbar-link" href="timeline.html#timelineSection">Наш таймлайн</a>
+      <a class="topbar-link" href="love-tree.html">Наша история</a>
     </div>
   </header>
 
-  <!-- Welcome Modal -->
-  <div class="modal-overlay hidden" id="welcomeModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <div class="modal">
-      <button class="modal-close" id="closeModal" aria-label="Закрыть окно">&times;</button>
-      <h2 id="modalTitle">Привет, Ramina 💗</h2>
-      <p>Добро пожаловать в нашу историю, Ramina и Asilbek. Каждый день хранит особенный момент.</p>
-      <button class="btn" id="openStoryBtn">Открыть историю</button>
-    </div>
-  </div>
-
   <main>
-    <section class="hero" id="hero">
+    <section class="welcome-inline" id="welcome">
       <div class="container">
-        <div class="hero-stage fade-in">
-          <figure class="hero-photo photo-1">
-            <img src="images/photo-1.jpg" alt="Наше фото 1" loading="lazy" />
-          </figure>
-          <figure class="hero-photo photo-2">
-            <img src="images/photo-2.jpg" alt="Наше фото 2" loading="lazy" />
-          </figure>
-          <figure class="hero-photo photo-3">
-            <img src="images/photo-3.jpg" alt="Наше фото 3" loading="lazy" />
-          </figure>
-          <figure class="hero-photo photo-4">
-            <img src="images/photo-4.jpg" alt="Наше фото 4" loading="lazy" />
-          </figure>
-          <figure class="hero-photo photo-5">
-            <img src="images/photo-5.jpg" alt="Наше фото 5" loading="lazy" />
-          </figure>
-          <figure class="hero-photo photo-6">
-            <img src="images/photo-6.jpg" alt="Наше фото 6" loading="lazy" />
-          </figure>
-          <figure class="hero-photo photo-7">
-            <img src="images/photo-7.jpg" alt="Наше фото 7" loading="lazy" />
-          </figure>
-          <figure class="hero-photo photo-8">
-            <img src="images/photo-8.jpg" alt="Наше фото 8" loading="lazy" />
-          </figure>
-          <figure class="hero-photo photo-9">
-            <img src="images/photo-9.jpg" alt="Наше фото 9" loading="lazy" />
-          </figure>
-          <figure class="hero-photo photo-10">
-            <img src="images/photo-10.jpg" alt="Наше фото 10" loading="lazy" />
-          </figure>
-          <figure class="hero-photo photo-11">
-            <img src="images/photo-11.jpg" alt="Наше фото 11" loading="lazy" />
-          </figure>
-          <figure class="hero-photo photo-12">
-            <img src="images/photo-12.jpg" alt="Наше фото 12" loading="lazy" />
-          </figure>
-
-          <div class="hero-card">
-            <span class="hero-kicker">Ramina ♡ Asilbek</span>
-            <h1>История Ramina & Asilbek</h1>
-            <p>Каждый момент - часть нас</p>
-            <button class="btn" id="heroTimelineBtn">Смотреть таймлайн</button>
+        <div class="welcome-inline-card fade-in">
+          <div class="welcome-particles" aria-hidden="true">
+            <span>❤</span>
+            <span>✿</span>
+            <span>❤</span>
+            <span>✦</span>
+            <span>❤</span>
           </div>
+          <div class="welcome-burst" aria-hidden="true"></div>
+          <h1 class="welcome-inline-title">Привет Рамина, поздравляю с 8 Марта!</h1>
+          <p class="welcome-inline-text">Ты самая нежная, красивая и особенная. Пусть каждый день будет наполнен радостью, теплом и любовью.</p>
+          <button class="btn" id="openStoryBtn">Начать историю</button>
         </div>
       </div>
     </section>
-
   </main>
 
   <footer>
     Made with love by Asilbek for Ramina 💗
   </footer>
 
-  <script src="script.js?v=4"></script>
+  <script src="script.js?v=6"></script>
 </body>
 </html>
+
 
 
 
