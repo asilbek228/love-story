@@ -255,6 +255,28 @@ h1, h2, h3 {
   font-weight: 500;
 }
 
+.welcome-title-part {
+  display: block;
+  background: inherit;
+  background-size: inherit;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.welcome-reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  filter: blur(1.5px);
+  transition: opacity .9s ease, transform .9s ease, filter .9s ease;
+}
+
+.welcome-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
 .love-note-section {
   padding-top: 24px;
   padding-bottom: 88px;
@@ -450,7 +472,7 @@ h1, h2, h3 {
   transform: rotate(var(--rot, 0deg));
   z-index: 1;
   opacity: 0;
-  animation: photoReveal 900ms ease forwards, photoDrift 7s ease-in-out infinite;
+  animation: photoReveal 900ms ease forwards, photoDrift var(--wander-dur, 6.8s) ease-in-out infinite;
   cursor: pointer;
   transition: transform var(--transition), box-shadow var(--transition), filter var(--transition);
 }
@@ -501,18 +523,18 @@ h1, h2, h3 {
   display: none;
 }
 
-.photo-1 { top: -3%; left: 4%; --rot: -13deg; width: clamp(88px, 11.5vw, 136px); z-index: 1; }
-.photo-2 { top: 6%; left: 19%; --rot: -4deg; width: clamp(82px, 10.4vw, 124px); z-index: 1; }
-.photo-3 { top: -1%; right: 24%; --rot: 8deg; width: clamp(90px, 12vw, 140px); z-index: 1; }
-.photo-4 { top: 9%; right: 6%; --rot: 11deg; width: clamp(84px, 10.8vw, 128px); z-index: 1; }
-.photo-5 { top: 30%; left: -3%; --rot: -9deg; width: clamp(86px, 11vw, 132px); z-index: 3; }
-.photo-6 { top: 27%; right: -2%; --rot: 6deg; width: clamp(92px, 11.7vw, 138px); z-index: 3; }
-.photo-7 { bottom: 7%; left: 5%; --rot: 10deg; width: clamp(84px, 10.8vw, 126px); z-index: 1; }
-.photo-8 { bottom: -2%; left: 26%; --rot: -6deg; width: clamp(88px, 11.2vw, 134px); z-index: 1; }
-.photo-9 { bottom: 2%; right: 22%; --rot: 7deg; width: clamp(86px, 11vw, 130px); z-index: 1; }
-.photo-10 { bottom: 6%; right: 4%; --rot: -11deg; width: clamp(82px, 10.6vw, 124px); z-index: 1; }
-.photo-11 { bottom: 22%; left: 10%; --rot: -15deg; width: clamp(90px, 11.8vw, 138px); z-index: 4; }
-.photo-12 { bottom: 20%; right: 9%; --rot: 14deg; width: clamp(90px, 11.8vw, 138px); z-index: 4; }
+.photo-1 { top: -9%; left: -1%; --rot: -16deg; width: clamp(88px, 11.5vw, 136px); z-index: 1; }
+.photo-2 { top: 2%; left: 15%; --rot: -7deg; width: clamp(82px, 10.4vw, 124px); z-index: 1; }
+.photo-3 { top: -8%; right: 19%; --rot: 11deg; width: clamp(90px, 12vw, 140px); z-index: 1; }
+.photo-4 { top: 4%; right: -2%; --rot: 14deg; width: clamp(84px, 10.8vw, 128px); z-index: 1; }
+.photo-5 { top: 33%; left: -9%; --rot: -12deg; width: clamp(86px, 11vw, 132px); z-index: 3; }
+.photo-6 { top: 30%; right: -8%; --rot: 9deg; width: clamp(92px, 11.7vw, 138px); z-index: 3; }
+.photo-7 { bottom: 3%; left: -1%; --rot: 13deg; width: clamp(84px, 10.8vw, 126px); z-index: 1; }
+.photo-8 { bottom: -8%; left: 22%; --rot: -9deg; width: clamp(88px, 11.2vw, 134px); z-index: 1; }
+.photo-9 { bottom: -4%; right: 18%; --rot: 10deg; width: clamp(86px, 11vw, 130px); z-index: 1; }
+.photo-10 { bottom: 2%; right: -2%; --rot: -14deg; width: clamp(82px, 10.6vw, 124px); z-index: 1; }
+.photo-11 { bottom: 26%; left: 4%; --rot: -18deg; width: clamp(90px, 11.8vw, 138px); z-index: 4; }
+.photo-12 { bottom: 24%; right: 3%; --rot: 17deg; width: clamp(90px, 11.8vw, 138px); z-index: 4; }
 
 .hero-stage .hero-card {
   width: min(680px, 92%);
@@ -622,6 +644,16 @@ h1, h2, h3 {
   width: min(980px, 100%);
   margin: 0 auto;
   padding: 16px 0;
+}
+
+.timeline-actions {
+  display: grid;
+  place-items: center;
+  margin-top: 24px;
+}
+
+.timeline-flowers-btn {
+  text-decoration: none;
 }
 
 .timeline::before {
@@ -742,6 +774,65 @@ footer {
   padding: 24px 16px 36px;
   font-size: .9rem;
   color: rgba(255, 233, 244, .82);
+}
+
+.flowers-page-body {
+  background:
+    radial-gradient(circle at 14% 14%, rgba(255, 177, 217, .26) 0, rgba(255, 255, 255, 0) 36%),
+    radial-gradient(circle at 90% 14%, rgba(255, 190, 228, .23) 0, rgba(255, 255, 255, 0) 34%),
+    linear-gradient(140deg, #471330 0%, #72244e 46%, #b55d8e 100%);
+}
+
+.flowers-main {
+  min-height: 100vh;
+  padding-top: 112px;
+  padding-bottom: 44px;
+}
+
+.flowers-section {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.flowers-frame {
+  position: relative;
+  width: min(1040px, 100%);
+  height: min(76vh, 720px);
+  margin: 0 auto;
+  border-radius: 30px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 226, 242, .52);
+  background: linear-gradient(180deg, rgba(254, 237, 246, .9), rgba(247, 213, 233, .74));
+  box-shadow: var(--shadow-strong);
+}
+
+#flowerCanvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.flowers-overlay {
+  position: absolute;
+  left: 24px;
+  top: 22px;
+  max-width: min(500px, calc(100% - 48px));
+  padding: 16px 18px;
+  border-radius: 18px;
+  background: rgba(255, 236, 247, .42);
+  border: 1px solid rgba(255, 227, 240, .6);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.flowers-overlay h1 {
+  font-size: clamp(1.4rem, 3.5vw, 2.25rem);
+  margin-bottom: 6px;
+}
+
+.flowers-overlay p {
+  margin-bottom: 14px;
+  color: rgba(74, 44, 58, .86);
 }
 
 .modal-overlay {
@@ -1110,11 +1201,20 @@ footer {
 }
 
 @keyframes photoDrift {
-  0%, 100% {
-    transform: translateY(0) rotate(var(--rot, 0deg));
+  0% {
+    transform: translate3d(0, 0, 0) rotate(var(--rot, 0deg));
+  }
+  25% {
+    transform: translate3d(var(--dx1, 22px), var(--dy1, -18px), 0) rotate(calc(var(--rot, 0deg) + var(--dr1, 2deg)));
   }
   50% {
-    transform: translateY(-6px) rotate(calc(var(--rot, 0deg) + 1.5deg));
+    transform: translate3d(var(--dx2, -24px), var(--dy2, 20px), 0) rotate(calc(var(--rot, 0deg) + var(--dr2, -2.2deg)));
+  }
+  75% {
+    transform: translate3d(var(--dx3, 18px), var(--dy3, 16px), 0) rotate(calc(var(--rot, 0deg) + var(--dr3, 1.7deg)));
+  }
+  100% {
+    transform: translate3d(0, 0, 0) rotate(var(--rot, 0deg));
   }
 }
 
@@ -1648,6 +1748,26 @@ footer {
 
   .lightbox-next {
     right: 8px;
+  }
+}
+
+@media (max-width: 900px) {
+  .flowers-frame {
+    height: min(68vh, 620px);
+    border-radius: 22px;
+  }
+
+  .flowers-overlay {
+    left: 12px;
+    right: 12px;
+    top: 12px;
+    max-width: none;
+    padding: 12px 14px;
+  }
+
+  .flowers-overlay p {
+    margin-bottom: 10px;
+    font-size: .9rem;
   }
 }
 

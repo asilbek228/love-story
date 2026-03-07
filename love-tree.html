@@ -7,7 +7,237 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=6" />
+  <link rel="stylesheet" href="style.css?v=7" />
+  <style>
+    .tree-flow-card {
+      background: linear-gradient(165deg, rgba(252, 232, 242, .92), rgba(249, 220, 235, .76));
+      border: 1px solid rgba(255, 239, 248, .58);
+      border-radius: 30px;
+      box-shadow: 0 20px 44px rgba(27, 6, 23, .3);
+      padding: clamp(18px, 4vw, 30px);
+      min-height: 500px;
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .tree-flow-intro {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      gap: 12px;
+      text-align: center;
+      transition: opacity .42s ease, transform .42s ease;
+    }
+
+    .tree-flow-start {
+      width: 250px;
+      height: 250px;
+      border: none;
+      border-radius: 999px;
+      color: #fff;
+      font-size: 2.1rem;
+      cursor: pointer;
+      background: radial-gradient(circle at 30% 30%, #ff94b6, #d24e78 64%, #af335b);
+      box-shadow: 0 18px 30px rgba(167, 40, 82, .35);
+    }
+
+    .tree-flow-start:hover { transform: scale(1.03); }
+    .tree-flow-start:active { transform: scale(.98); }
+
+    .tree-flow-scene {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(.98);
+      transition: opacity .55s ease, transform .55s ease;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+      align-items: end;
+    }
+
+    .tree-flow-card.is-started .tree-flow-intro {
+      opacity: 0;
+      transform: translateY(-10px);
+      pointer-events: none;
+    }
+
+    .tree-flow-card.is-started .tree-flow-scene {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1);
+    }
+
+    .tree-wrap {
+      display: grid;
+      place-items: center;
+      transition: transform .82s cubic-bezier(.22, 1, .36, 1);
+    }
+
+    .tree-box {
+      width: min(370px, 96%);
+      min-height: 360px;
+      position: relative;
+      display: grid;
+      place-items: end center;
+      margin: 0 auto;
+    }
+
+    .tree-ground {
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      width: min(440px, 120%);
+      height: 3px;
+      transform: translateX(-50%);
+      background: rgba(44, 28, 23, .74);
+      z-index: 1;
+    }
+
+    .tree-branches {
+      position: absolute;
+      width: min(266px, 86%);
+      height: 214px;
+      bottom: 106px;
+      z-index: 4;
+    }
+
+    .branch-line {
+      --dash: 240;
+      fill: none;
+      stroke: #865137;
+      stroke-width: 4.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      opacity: 0;
+      stroke-dasharray: var(--dash);
+      stroke-dashoffset: var(--dash);
+    }
+
+    .branch-line.b1 { stroke-width: 9; --dash: 286; }
+
+    .tree-flow-card.is-tree .branch-line {
+      opacity: 1;
+      animation: drawBranch .72s ease-out forwards;
+    }
+
+    .tree-flow-card.is-tree .b1 { animation-delay: .06s; }
+    .tree-flow-card.is-tree .b2 { animation-delay: .2s; }
+    .tree-flow-card.is-tree .b3 { animation-delay: .28s; }
+    .tree-flow-card.is-tree .b4 { animation-delay: .36s; }
+    .tree-flow-card.is-tree .b5 { animation-delay: .44s; }
+    .tree-flow-card.is-tree .b6 { animation-delay: .52s; }
+    .tree-flow-card.is-tree .b7 { animation-delay: .6s; }
+    .tree-flow-card.is-tree .b8 { animation-delay: .68s; }
+    .tree-flow-card.is-tree .b9 { animation-delay: .76s; }
+    .tree-flow-card.is-tree .b10 { animation-delay: .84s; }
+    .tree-flow-card.is-tree .b11 { animation-delay: .92s; }
+
+    .tree-trunk {
+      width: 24px;
+      height: 250px;
+      border-radius: 0;
+      clip-path: polygon(0% 100%, 100% 100%, 50% 0%, 40% 0%);
+      background: linear-gradient(180deg, #c9a692, #83523a);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.2);
+      z-index: 3;
+    }
+
+    .tree-crown {
+      position: absolute;
+      top: 8px;
+      width: min(1000px, 97%);
+      aspect-ratio: 1 / 1;
+      border-radius: 60%;
+      background: radial-gradient(circle at 50% 45%, rgba(255,216,228,.35), rgba(255,216,228,.08) 62%, rgba(255,216,228,0) 76%);
+      z-index: 5;
+    }
+
+    .crown-heart {
+      position: absolute;
+      left: calc(var(--x) * 1%);
+      top: calc(var(--y) * 1%);
+      color: var(--c);
+      font-size: calc(var(--s) * 1rem);
+      opacity: 0;
+      text-shadow: 0 2px 7px rgba(255,255,255,.55);
+      transform: translate(-50%, -50%) scale(.22) rotate(var(--r));
+      transition: opacity .45s ease, transform .52s cubic-bezier(.34, 1.45, .64, 1);
+      transition-delay: var(--d);
+    }
+
+    .tree-flow-card.is-bloom .crown-heart {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1) rotate(var(--r));
+      animation: petalFloat 4.8s ease-in-out infinite;
+    }
+
+    .tree-fall {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .fall-heart {
+      position: absolute;
+      left: calc(var(--x) * 1%);
+      top: calc(var(--y) * 1%);
+      color: var(--c);
+      font-size: calc(var(--s) * 1rem);
+      opacity: 0;
+      transform: translate(-50%, -50%);
+    }
+
+    .tree-flow-card.is-bloom .fall-heart {
+      animation: blossomFall var(--dur) linear infinite;
+      animation-delay: var(--delay);
+    }
+
+    .wish-panel {
+      opacity: 0;
+      transform: translateX(18px);
+      transition: opacity .78s ease, transform .78s cubic-bezier(.22, 1, .36, 1);
+      text-align: left;
+    }
+
+    .wish-line { min-height: 1.5em; }
+    .wish-sign { font-weight: 600; margin-bottom: 14px; }
+
+    .wish-counter {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+
+    .tree-flow-card.is-shift .tree-flow-scene {
+      grid-template-columns: .92fr 1.08fr;
+      align-items: center;
+    }
+
+    .tree-flow-card.is-shift .tree-wrap { transform: translateX(-24px); }
+    .tree-flow-card.is-note .wish-panel { opacity: 1; transform: translateX(0); }
+    .tree-flow-card.is-counter .wish-counter { opacity: 1; transform: translateY(0); }
+
+    @keyframes drawBranch {
+      from { stroke-dashoffset: var(--dash); }
+      to { stroke-dashoffset: 0; }
+    }
+
+    @keyframes blossomFall {
+      0% { opacity: 0; transform: translate(-50%, -50%) translate3d(0, 0, 0) rotate(0deg); }
+      12% { opacity: .95; }
+      100% { opacity: 0; transform: translate(-50%, -50%) translate3d(var(--dr), 188px, 0) rotate(var(--sp)); }
+    }
+
+    @media (max-width: 900px) {
+      .tree-flow-card { min-height: 430px; text-align: center; }
+      .tree-flow-card.is-shift .tree-flow-scene { grid-template-columns: 1fr; gap: 12px; }
+      .tree-flow-card.is-shift .tree-wrap { transform: none; }
+      .wish-panel { text-align: center; }
+    }
+  </style>
 </head>
 <body class="love-scene-page">
   <div class="heart-rain" aria-hidden="true">
@@ -25,22 +255,33 @@
   <main class="love-scene-main">
     <section class="love-note-section">
       <div class="container">
-        <article class="love-note-card fade-in">
-          <div class="love-note-text">
-            <h2>Для любви всей моей жизни</h2>
-            <p>Если бы я выбирал самое спокойное и безопасное место в мире, это было бы рядом с тобой.</p>
-            <p>С тобой каждый день становится теплее, легче и счастливее.</p>
-            <p class="love-counter" id="loveCounter">Мы вместе: считаю время...</p>
-            <a class="btn" href="photos.html">Смотреть фото</a>
+        <article class="tree-flow-card fade-in" id="treeFlowCard">
+          <div class="tree-flow-intro">
+            <button class="tree-flow-start" id="treeFlowStart" type="button" aria-label="Запустить историю">❤</button>
+            <p>Нажми на сердце</p>
           </div>
 
-          <div class="love-tree" aria-hidden="true">
-            <div class="tree-crown">
-              <span>❤</span><span>❤</span><span>❤</span><span>❤</span><span>❤</span><span>❤</span>
-              <span>❤</span><span>❤</span><span>❤</span><span>❤</span><span>❤</span><span>❤</span>
-              <span>❤</span><span>❤</span><span>❤</span><span>❤</span><span>❤</span><span>❤</span>
+          <div class="tree-flow-scene">
+            <div class="tree-wrap">
+              <div class="tree-box" aria-hidden="true">
+                <div class="tree-ground"></div>
+                <svg class="tree-branches" viewBox="0 0 260 210" aria-hidden="true">
+            
+                </svg>
+                <div class="tree-crown" id="treeCrown"></div>
+                <div class="tree-fall" id="treeFall"></div>
+                <div class="tree-trunk"></div>
+              </div>
             </div>
-            <div class="tree-trunk"></div>
+
+            <div class="love-note-text wish-panel" id="wishPanel">
+              <h2>С Днём 8 Марта</h2>
+              <p class="wish-line" data-line="Я хотел сказать тебе спасибо за эти три года, которые мы прошли рядом. Это было важное время в моей жизни, и я искренне благодарен тебе за всё, что между нами было."></p>
+              <p class="wish-line" data-line="За эти годы было много всего - светлые моменты, радость, смех, поддержка. Были и трудные времена, недопонимания и сложные дни. Но всё это стало частью нашего пути, частью того опыта, который мы прожили вместе. И я ценю это."></p>
+              <p class="wish-line" data-line="Ты была очень близким для меня человеком, и эти три года навсегда останутся важной частью моей жизни. Я благодарен тебе за эмоции, за воспоминания и за всё, чему мы научились рядом друг с другом."></p>
+              <p class="wish-line wish-sign" data-line="Я искренне желаю тебе самого лучшего в жизни - счастья, спокойствия, людей рядом, которые будут ценить тебя и делать тебя счастливой. Пусть у тебя всё сложится так, как ты мечтаешь."></p>
+              <a class="btn" href="photos.html">Смотреть фото</a>
+            </div>
           </div>
         </article>
       </div>
@@ -48,9 +289,106 @@
   </main>
 
   <footer>
-    Made with love by Asilbek for Ramina 💗
+    by Asilbek for Ramina
   </footer>
 
-  <script src="script.js?v=6"></script>
+  <script>
+    (function () {
+      const card = document.getElementById("treeFlowCard");
+      const start = document.getElementById("treeFlowStart");
+      const crown = document.getElementById("treeCrown");
+      const fall = document.getElementById("treeFall");
+      const lines = Array.from(document.querySelectorAll("[data-line]"));
+      if (!card || !start || !crown || !fall) return;
+
+      const palette = ["#d53f70", "#e55482", "#f06a95", "#ff7baa", "#d93867", "#f06f9d"];
+
+      const rand = (n) => Math.floor(Math.random() * n);
+      const pause = (ms) => new Promise((r) => setTimeout(r, ms));
+
+      function putCrownHearts() {
+        if (crown.childElementCount) return;
+        const total = 500;
+        let created = 0;
+        let guard = 0;
+
+        while (created < total && guard < 6000) {
+          guard += 1;
+          const x = -1.28 + Math.random() * 2.5;
+          const y = -1.28 + Math.random() * 2.5;
+          const f = Math.pow((x * x + y * y - 1), 3) - (x * x * Math.pow(y, 3));
+          if (f > 0) continue;
+
+          const px = Math.max(6, Math.min(94, 49 + x * 30.5 + (Math.random() - 0.5) * 2.1));
+          const py = Math.max(6, Math.min(94, 50 - y * 28.5 + (Math.random() - 0.5) * 2.1));
+
+          const el = document.createElement("span");
+          el.className = "crown-heart";
+          el.textContent = "\u2764";
+          el.style.setProperty("--x", px.toFixed(2));
+          el.style.setProperty("--y", py.toFixed(2));
+          el.style.setProperty("--s", (0.44 + Math.random() * 0.42).toFixed(2));
+          const delayBase = Math.max(0, (py - 22) * 14);
+          el.style.setProperty("--d", `${Math.floor(delayBase + Math.random() * 220)}ms`);
+          el.style.setProperty("--r", `${-18 + rand(36)}deg`);
+          el.style.setProperty("--c", palette[rand(palette.length)]);
+          crown.appendChild(el);
+          created += 1;
+        }
+      }
+
+      function putFallingHearts() {
+        if (fall.childElementCount) return;
+        for (let i = 0; i < 56; i += 1) {
+          const el = document.createElement("span");
+          el.className = "fall-heart";
+          el.textContent = Math.random() > 0.2 ? "\u2764" : "\u2726";
+          el.style.setProperty("--x", (20 + Math.random() * 64).toFixed(2));
+          el.style.setProperty("--y", (40 + Math.random() * 36).toFixed(2));
+          el.style.setProperty("--s", (0.58 + Math.random() * 0.65).toFixed(2));
+          el.style.setProperty("--dur", `${(2.8 + Math.random() * 2.1).toFixed(2)}s`);
+          el.style.setProperty("--delay", `${(-Math.random() * 3.8).toFixed(2)}s`);
+          el.style.setProperty("--dr", `${50 + rand(68)}px`);
+          el.style.setProperty("--sp", `${-220 + rand(440)}deg`);
+          el.style.setProperty("--c", palette[rand(palette.length)]);
+          fall.appendChild(el);
+        }
+      }
+
+      async function typeLine(el, text) {
+        el.textContent = "";
+        for (const ch of text) {
+          el.textContent += ch;
+          await pause(24);
+        }
+      }
+
+      start.addEventListener("click", async () => {
+        if (card.dataset.run === "1") return;
+        card.dataset.run = "1";
+        start.disabled = true;
+        putCrownHearts();
+        putFallingHearts();
+
+        card.classList.add("is-started");
+        await pause(250);
+        card.classList.add("is-tree");
+        await pause(2100);
+        card.classList.add("is-bloom");
+        await pause(1800);
+        card.classList.add("is-shift");
+        await pause(420);
+        card.classList.add("is-note");
+
+        for (const line of lines) {
+          await typeLine(line, line.getAttribute("data-line") || "");
+          await pause(170);
+        }
+
+        card.classList.add("is-counter");
+      });
+    })();
+  </script>
+  <script src="script.js?v=7"></script>
 </body>
 </html>

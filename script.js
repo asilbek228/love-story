@@ -12,6 +12,9 @@ const lightboxPrevBtn = document.getElementById("lightboxPrev");
 const lightboxNextBtn = document.getElementById("lightboxNext");
 const loveCounter = document.getElementById("loveCounter");
 const decorLayer = document.querySelector(".decor");
+const welcomeTitlePart1 = document.getElementById("welcomeTitlePart1");
+const welcomeTitlePart2 = document.getElementById("welcomeTitlePart2");
+const welcomeText = document.getElementById("welcomeText");
 
 // Background music (low volume + resume across pages)
 const MUSIC_STORAGE_KEY = "love_story_music_state_v1";
@@ -155,6 +158,29 @@ function openTimelinePage() {
   window.location.href = "timeline.html#timelineSection";
 }
 
+if (welcomeTitlePart1 && welcomeTitlePart2 && welcomeText && openStoryBtn) {
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduceMotion) {
+    welcomeTitlePart1.classList.add("is-visible");
+    welcomeTitlePart2.classList.add("is-visible");
+    welcomeText.classList.add("is-visible");
+    openStoryBtn.classList.add("is-visible");
+  } else {
+    setTimeout(() => {
+      welcomeTitlePart1.classList.add("is-visible");
+      setTimeout(() => {
+        welcomeTitlePart2.classList.add("is-visible");
+        setTimeout(() => {
+          welcomeText.classList.add("is-visible");
+          setTimeout(() => {
+            openStoryBtn.classList.add("is-visible");
+          }, 2000);
+        }, 2000);
+      }, 2000);
+    }, 120);
+  }
+}
+
 function formatLoveDuration(startDate, endDate) {
   const diffMs = Math.max(0, endDate.getTime() - startDate.getTime());
   const totalSeconds = Math.floor(diffMs / 1000);
@@ -241,6 +267,23 @@ if (heroTimelineBtn) {
 }
 
 const heroImages = document.querySelectorAll(".hero-photo img");
+const heroFrames = document.querySelectorAll(".hero-photo");
+
+heroFrames.forEach((frame) => {
+  // Give each photo a unique smooth wandering path.
+  const rand = (min, max) => Math.random() * (max - min) + min;
+  frame.style.setProperty("--wander-dur", `${rand(5.2, 8.4).toFixed(2)}s`);
+  frame.style.setProperty("--dx1", `${rand(-30, 30).toFixed(1)}px`);
+  frame.style.setProperty("--dy1", `${rand(-28, 14).toFixed(1)}px`);
+  frame.style.setProperty("--dx2", `${rand(-32, 32).toFixed(1)}px`);
+  frame.style.setProperty("--dy2", `${rand(-12, 30).toFixed(1)}px`);
+  frame.style.setProperty("--dx3", `${rand(-26, 26).toFixed(1)}px`);
+  frame.style.setProperty("--dy3", `${rand(-18, 24).toFixed(1)}px`);
+  frame.style.setProperty("--dr1", `${rand(-2.8, 2.8).toFixed(2)}deg`);
+  frame.style.setProperty("--dr2", `${rand(-3.2, 3.2).toFixed(2)}deg`);
+  frame.style.setProperty("--dr3", `${rand(-2.6, 2.6).toFixed(2)}deg`);
+});
+
 heroImages.forEach((img) => {
   img.addEventListener("error", () => {
     const frame = img.closest(".hero-photo");
